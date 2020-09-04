@@ -5,8 +5,8 @@ body {
 
 #level-title {
   font-family: 'Press Start 2P', cursive;
-  font-size: 2rem;
-  margin:  5%;
+  font-size: 1.5rem;
+  margin: 3%;
   color: #FEF2BF;
 }
 
@@ -14,7 +14,6 @@ body {
   display: block;
   width: 50%;
   margin: auto;
-
 }
 
 .btn {
@@ -24,6 +23,22 @@ body {
   width: 150px;
   border: 10px solid black;
   border-radius: 20%;
+}
+
+.btn-start {
+  display: inline-block;
+  font-size: 20px;
+  height: 40px;
+  width: 75px;
+  border-radius: 20%;
+}
+
+.btn-disable {
+  cursor: not-allowed;
+  pointer-events: none;
+  /*Button disabled - CSS color class*/
+  color: #c0c0c0;
+  background-color: #ffffff;
 }
 
 .game-over {

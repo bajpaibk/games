@@ -36,7 +36,7 @@ function checkAnswer(seq){
     console.log("gamePattern:        " + gamePattern);
     console.log("userClickedPattern: " + userClickedPattern);
 
-    $("#level-title").text("Game Over, Press any Key to Restart");
+    $("#level-title").text("Game Over, Press any Key or Start button to Restart");
     startOver();
   }
 }
@@ -45,6 +45,7 @@ function startOver(){
   level = 0;
   started = false;
   gamePattern.splice(0, gamePattern.length);
+  $("#start").removeClass("btn-disable");
 }
 
 function nextSequence(){
@@ -76,5 +77,15 @@ $(document).keypress(function(event) {
   if(!started){
     nextSequence();
     started = true;
+    $("#start").addClass("btn-disable");
+  }
+});
+
+$("#start").click(function(event) {
+  //Key press is only processed when game is not started
+  if(!started){
+    nextSequence();
+    started = true;
+    $("#start").addClass("btn-disable");
   }
 });
