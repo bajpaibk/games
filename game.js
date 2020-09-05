@@ -4,6 +4,34 @@ var gamePattern = [];
 var userClickedPattern = [];
 var buttonColours = ["green", "red", "yellow", "blue"];
 
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
+if(isMobile.any()){
+  $("#level-title").text("Press Start button to start the game");
+} else {
+  //Start button is not needed on the laptop screen
+  $("#start").hide();
+}
+
 $(".btn").click(function(){
   //Button click is processed only when game is started
   if(started) {
@@ -33,19 +61,33 @@ function checkAnswer(seq){
       $("body").removeClass("game-over");
     }, 200);
 
-    console.log("gamePattern:        " + gamePattern);
-    console.log("userClickedPattern: " + userClickedPattern);
+    showResult();
 
-    $("#level-title").text("Game Over, Press any Key or Start button to Restart");
+    if(isMobile.any()){
+      $("#level-title").text("Game Over, Press Start button to Restart");
+    } else {
+      $("#level-title").text("Game Over, Press a Key to Restart");
+    }
+
     startOver();
   }
+}
+
+function showResult(){
+  var line1 = "Game got over at Level: " + level;
+  var line2 = "Exptected:   " + gamePattern;
+  var line3 = "You pressed: " + userClickedPattern;
+
+  $("#result").html(line1 + "<br/>" + line2 + "<br/>" + line3).addClass("result");
 }
 
 function startOver(){
   level = 0;
   started = false;
   gamePattern.splice(0, gamePattern.length);
-  $("#start").removeClass("btn-disable");
+  if(isMobile.any()) {
+    $("#start").removeClass("btn-disable");
+  }
 }
 
 function nextSequence(){
@@ -77,7 +119,10 @@ $(document).keypress(function(event) {
   if(!started){
     nextSequence();
     started = true;
-    $("#start").addClass("btn-disable");
+    if(isMobile.any()){
+      $("#start").addClass("btn-disable");
+    }
+    $("#result").text(" ").removeClass("result");
   }
 });
 
@@ -86,6 +131,9 @@ $("#start").click(function(event) {
   if(!started){
     nextSequence();
     started = true;
-    $("#start").addClass("btn-disable");
+    if(isMobile.any()) {
+      $("#start").addClass("btn-disable");
+    }
+    $("#result").text(" ").removeClass("result");
   }
 });
